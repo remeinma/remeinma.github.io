@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>数组中第K个最大元素</title>
+      <link href="/2023/10/04/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%AC%ACK%E4%B8%AA%E6%9C%80%E5%A4%A7%E5%85%83%E7%B4%A0/"/>
+      <url>/2023/10/04/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%AC%ACK%E4%B8%AA%E6%9C%80%E5%A4%A7%E5%85%83%E7%B4%A0/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h3><p><a href="https://leetcode.cn/problems/kth-largest-element-in-an-array/">215. 数组中的第K个最大元素</a></p><p>给定整数数组 <code>nums</code> 和整数 <code>k</code>，请返回数组中第 <code>k</code> 个最大的元素。</p><p>请注意，你需要找的是数组排序后的第 <code>k</code> 个最大的元素，而不是第 <code>k</code> 个不同的元素。</p><p>你必须设计并实现时间复杂度为 <code>O(n)</code> 的算法解决此问题。</p><p><strong>示例 1:</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [3,2,1,5,6,4], k = 2</span><br><span class="line">输出: 5</span><br></pre></td></tr></table></figure><p><strong>示例 2:</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [3,2,3,1,2,4,5,5,6], k = 4</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure><p> <strong>提示：</strong></p><ul><li><code>1 &lt;= k &lt;= nums.length &lt;= 105</code></li><li><code>-104 &lt;= nums[i] &lt;= 104</code></li></ul><h3 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">quick_sort</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (l == r) <span class="keyword">return</span>  nums[k];</span><br><span class="line">        <span class="type">int</span> partition = nums[l], i = l - <span class="number">1</span>, j = r + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; j)&#123;</span><br><span class="line">            <span class="keyword">do</span> i++; <span class="keyword">while</span> (nums[i] &lt; partition);</span><br><span class="line">            <span class="keyword">do</span> j--; <span class="keyword">while</span> (nums[j] &gt; partition);</span><br><span class="line">            <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(nums[i],nums[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(k &lt;= j)  <span class="keyword">return</span> <span class="built_in">quick_sort</span>(nums, l, j, k);</span><br><span class="line">        <span class="keyword">else</span>    <span class="keyword">return</span> <span class="built_in">quick_sort</span>(nums, j+<span class="number">1</span>, r, k);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">findKthLargest</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">quick_sort</span>(nums, <span class="number">0</span>, n - <span class="number">1</span>, n - k);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="算法设计"><a href="#算法设计" class="headerlink" title="算法设计"></a>算法设计</h4><p>基于快速排序，同时只排序k值对应的一边以减少运行时间。</p><h4 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h4><p>一开始使用$while \cdots do$循环，超出运行时间，猜测是由于多出最后一次的比较导致超时，改用$do\cdots while$循环，后成功提交。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Algorithm </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Algorithm </tag>
+            
+            <tag> 分治算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>最大子数组和</title>
       <link href="/2023/10/04/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/"/>
       <url>/2023/10/04/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/</url>
