@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>最大子数组和</title>
+      <link href="/2023/10/04/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/"/>
+      <url>/2023/10/04/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h3><p><a href="https://leetcode.cn/problems/maximum-subarray/">53. 最大子数组和</a></p><p>给你一个整数数组 <code>nums</code> ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p><p><strong>子数组</strong> 是数组中的一个连续部分。 </p><p><strong>示例 1：</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：nums = [-2,1,-3,4,-1,2,1,-5,4]</span><br><span class="line">输出：6</span><br><span class="line">解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。</span><br></pre></td></tr></table></figure><p><strong>示例 2：</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：nums = [1]</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure><p><strong>示例 3：</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：nums = [5,4,-1,7,8]</span><br><span class="line">输出：23</span><br></pre></td></tr></table></figure><p><strong>提示</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 105</code></li><li><code>-104 &lt;= nums[i] &lt;= 104</code></li></ul><p><strong>进阶：</strong>如果你已经实现复杂度为 <code>O(n)</code> 的解法，尝试使用更为精妙的 <strong>分治法</strong> 求解。</p><h3 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Status</span>&#123;</span><br><span class="line">        <span class="type">int</span> lSum, rSum, mSum, iSum;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function">Status <span class="title">pushUp</span><span class="params">(Status l, Status r)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="type">int</span> iSum = l.iSum + r.iSum;</span><br><span class="line">        <span class="type">int</span> lSum = <span class="built_in">max</span>(l.lSum, l.iSum + r.lSum);</span><br><span class="line">        <span class="type">int</span> rSum = <span class="built_in">max</span>(r.rSum, r.iSum + l.rSum);</span><br><span class="line">        <span class="type">int</span> mSum = <span class="built_in">max</span>(<span class="built_in">max</span>(l.mSum, r.mSum), l.rSum + r.lSum);</span><br><span class="line">        <span class="keyword">return</span> (Status) &#123;lSum, rSum, mSum, iSum&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function">Status <span class="title">get</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="type">int</span> mid = (r+l)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (l == r) &#123;</span><br><span class="line">             <span class="keyword">return</span> (Status) &#123;nums[l],nums[l],nums[l],nums[l]&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        Status lSub = <span class="built_in">get</span>(nums, l, mid);</span><br><span class="line">        Status rSub = <span class="built_in">get</span>(nums, mid+<span class="number">1</span>, r);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pushUp</span>(lSub, rSub);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxSubArray</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">get</span>(nums, <span class="number">0</span>, nums.<span class="built_in">size</span>()<span class="number">-1</span>).mSum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="算法设计"><a href="#算法设计" class="headerlink" title="算法设计"></a>算法设计</h4><h5 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h5><p>将数组不断拆分，计算左右两部分的最大子数组和横跨$mid$的最大子数组，从而计算出该数组的最大子数组。</p><p>假设序列 $a$ 的长度为 $n$。</p><p>时间复杂度：假设我们把递归的过程看作是一颗二叉树的先序遍历，那么这颗二叉树的深度的渐进上界为 O($\log⁡{n}$)，这里的总时间相当于遍历这颗二叉树的所有节点，故总时间的渐进上界是 $O(\sum\limits_{i=1}^{\log{n}}2^{i-1})=O(n)$，故渐进时间复杂度为 $O(n)$。<br>空间复杂度：递归会使用 $O(\log⁡n)$ 的栈空间，故渐进空间复杂度为 $O(\log⁡n)$。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Algorithm </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Algorithm </tag>
+            
+            <tag> 分治算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>合并K个升序列表</title>
       <link href="/2023/10/03/%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E5%88%97%E8%A1%A8/"/>
       <url>/2023/10/03/%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E5%88%97%E8%A1%A8/</url>
